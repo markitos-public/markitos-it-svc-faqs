@@ -13,8 +13,10 @@ import (
 	"gorm.io/gorm"
 )
 
+var dsn = "host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"
+
 func TestPostgresRepository_SaveAndGet(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	sqlDB, err := db.DB()
@@ -52,7 +54,7 @@ func TestPostgresRepository_SaveAndGet(t *testing.T) {
 }
 
 func TestPostgresRepository_Save_NilFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -63,7 +65,7 @@ func TestPostgresRepository_Save_NilFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_Save_IncompleteFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -85,7 +87,7 @@ func TestPostgresRepository_Save_IncompleteFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_Get_NonExistentFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -99,7 +101,7 @@ func TestPostgresRepository_Get_NonExistentFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_DeleteExistingFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -129,7 +131,7 @@ func TestPostgresRepository_DeleteExistingFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_DeleteNonExistentFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -142,7 +144,7 @@ func TestPostgresRepository_DeleteNonExistentFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_Delete_NilID(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -153,7 +155,7 @@ func TestPostgresRepository_Delete_NilID(t *testing.T) {
 }
 
 func TestPostgresRepository_UpdateExistingFaq(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	repo := postgresrepo.NewPostgresFaqRepository(db)
@@ -193,7 +195,7 @@ func TestPostgresRepository_UpdateExistingFaq(t *testing.T) {
 }
 
 func TestPostgresRepository_List(t *testing.T) {
-	db, err := gorm.Open(pgdriver.Open("host=localhost port=5431 user=postgres password=postgres dbname=faqs_test sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(pgdriver.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
 
 	sqlDB, err := db.DB()
