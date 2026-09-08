@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"os"
 
-	"markitos-it-svc-faqs/internal/domain/application"
-	"markitos-it-svc-faqs/internal/domain/persistence"
 	"markitos-it-svc-faqs/internal/infraestructure/persistence/postgres"
 	"markitos-it-svc-faqs/internal/infraestructure/rest"
 
@@ -28,10 +26,6 @@ func main() {
 	}
 
 	repo := postgres.NewPostgresFaqRepository(db)
-	if err := seedDefaultFaq(repo); err != nil {
-		log.Fatalf("default FAQ creation failed: %v", err)
-	}
-
 	saveHandler := rest.NewRESTSaveUseCase(repo)
 	getHandler := rest.NewRESTGetUseCase(repo)
 	updateHandler := rest.NewRESTUpdateUseCase(repo)
@@ -70,33 +64,6 @@ func main() {
 	if err := http.ListenAndServe(address, corsMiddleware(mux)); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
-}
-
-func seedDefaultFaq(repo persistence.FaqRepository) error {
-	const title = "Como recupero mi contrasena?"
-
-	faqs, err := repo.List()
-	if err != nil {
-		return err
-	}
-
-	for _, faq := range faqs {
-		if faq.Title.Value() == title {
-			return nil
-		}
-	}
-
-	faq, err := application.NewSaveFaqUseCase(repo).Save(
-		title,
-		"Puedes recuperar tu contrasena desde la pantalla de inicio de sesion usando el enlace de recuperacion.",
-		[]string{"cuenta", "seguridad"},
-	)
-	if err != nil {
-		return err
-	}
-
-	log.Printf("Default FAQ created with id %s", faq)
-	return nil
 }
 
 func corsMiddleware(next http.Handler) http.Handler {
